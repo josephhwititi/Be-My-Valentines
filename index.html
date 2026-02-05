@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Valentine</title>
+    <title>The Bet</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
@@ -12,15 +12,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Fallback */
-            height: 100dvh; /* Dynamic height for mobile browsers */
+            height: 100vh;
+            height: 100dvh;
             margin: 0;
             background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            touch-action: none; /* Disables scrolling/zooming on the background */
+            touch-action: none;
         }
 
         @keyframes gradientBG {
@@ -31,33 +31,33 @@
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px 20px; /* Smaller padding for mobile */
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 90%; /* Fits any screen width */
-            max-width: 400px; /* Don't get too wide on PC */
+            width: 90%;
+            max-width: 400px;
             z-index: 10;
         }
 
         h1 {
             color: #ff4081;
-            font-size: 1.8rem; /* Default size */
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
-        /* Special sizing for small mobile screens */
         @media (max-width: 480px) {
-            h1 { font-size: 1.5rem; }
+            h1 { font-size: 1.4rem; }
             .container { padding: 20px 15px; }
         }
 
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 15px; /* Adds space between buttons */
-            min-height: 60px; /* Reserves space so layout doesn't jump */
+            gap: 15px;
+            min-height: 60px;
+            margin-top: 20px;
         }
 
         button {
@@ -67,9 +67,9 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
-            white-space: nowrap; /* Keeps text on one line */
-            touch-action: manipulation; /* PREVENTS ZOOMING ON TAP */
-            -webkit-tap-highlight-color: transparent; /* Removes blue box on tap */
+            white-space: nowrap;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         #yesBtn {
@@ -88,17 +88,18 @@
         #noBtn {
             background-color: #e0e0e0;
             color: #333;
-            transition: all 0.2s ease; /* Faster movement for mobile feel */
+            transition: all 0.2s ease;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 id="question">My life is beautiful, but with you it’s perfect. Will you be my Valentine? 🌹</h1>
+        <h1 id="question">Since we're miles apart, let's make a bet.<br><br>If you can't click "No", you HAVE to be my Valentine. Deal? ✈️❤️</h1>
+        
         <div class="buttons">
-            <button id="yesBtn">Yes! 💖</button>
-            <button id="noBtn">No 😢</button>
+            <button id="yesBtn">Okay, I accept 💖</button>
+            <button id="noBtn">No way</button>
         </div>
     </div>
 
@@ -107,51 +108,41 @@
         const yesBtn = document.getElementById('yesBtn');
         const question = document.getElementById('question');
 
-        // Logic to make the 'No' button run away
         function moveButton() {
-            // Get the current screen dimensions
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
+            const buffer = 20; // Safety buffer
 
-            // SAFETY BUFFER: Keep button 20px away from all edges
-            const buffer = 20;
-
-            // Calculate safe area
             const maxLeft = screenWidth - btnWidth - buffer;
             const maxTop = screenHeight - btnHeight - buffer;
 
-            // Generate random position within safe area
-            // Math.max(buffer, ...) ensures it doesn't go off the top/left edge
             const newLeft = Math.max(buffer, Math.random() * maxLeft);
             const newTop = Math.max(buffer, Math.random() * maxTop);
 
-            // Apply new position with 'fixed' to break it out of the layout
             noBtn.style.position = 'fixed'; 
             noBtn.style.left = newLeft + 'px';
             noBtn.style.top = newTop + 'px';
         }
 
-        // --- MOBILE TOUCH HANDLING ---
-        // 'touchstart' is instant on phones (faster than click)
+        // Mobile Touch
         noBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault(); // Stop the browser from thinking this is a click
+            e.preventDefault(); 
             moveButton();
         });
 
-        // --- DESKTOP MOUSE HANDLING ---
+        // Desktop Mouse
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('click', moveButton);
 
         // Celebration Logic
         yesBtn.addEventListener('click', function() {
-            question.innerHTML = "You just made me the happiest man alive. I love you so much! ❤️";
+            // UPDATED SUCCESS MESSAGE
+            question.innerHTML = "A bet is a bet! You're mine now. 😉<br>See you soon! ❤️";
             
-            // Remove the No button entirely
             noBtn.remove();
             
-            // Fireworks
             var duration = 5 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
